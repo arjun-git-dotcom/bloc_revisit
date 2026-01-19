@@ -14,34 +14,28 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CounterBloc(),
+      create: (context) => Counterbloc(),
       child: MaterialApp(home: Homepage()),
     );
   }
 }
 
-class Homepage extends StatefulWidget {
+class Homepage extends StatelessWidget {
   const Homepage({super.key});
 
   @override
-  State<Homepage> createState() => _HomepageState();
-}
-
-class _HomepageState extends State<Homepage> {
-  @override
   Widget build(BuildContext context) {
-    var bloc=BlocProvider.of<CounterBloc>(context);
-    return Scaffold(
-      body: BlocBuilder<CounterBloc, CounterState>(
-        builder: (context, state) => Center(child: Text('${state.countValue}'))
-        
-      ),floatingActionButton: GestureDetector(
-        onDoubleTap: ()=>bloc.add(DecrementCounter()),
-        child: FloatingActionButton(
-          
-          onPressed: ()=>bloc.add(IncrementCounter())),
+    var bloc = BlocProvider.of<Counterbloc>(context);
+    return BlocBuilder<Counterbloc, ColorState>(
+      builder: (context, state) => Scaffold(
+        backgroundColor: state.colorValue,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            bloc.add(IncrementColor());
+            
+          },
+        ),
       ),
-        
     );
   }
 }

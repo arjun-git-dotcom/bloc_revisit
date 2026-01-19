@@ -1,5 +1,3 @@
-abstract class CounterEvent{}
+abstract class ColorEvent{}
 
-class IncrementCounter extends CounterEvent{}
-
-class DecrementCounter extends CounterEvent{}
+class IncrementColor extends ColorEvent{}

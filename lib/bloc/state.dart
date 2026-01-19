@@ -1,4 +1,6 @@
-class CounterState {
-  int countValue;
-  CounterState({required this.countValue});
+import 'dart:ui';
+
+class ColorState {
+  Color colorValue;
+  ColorState(Color colorValue) : this.colorValue = colorValue;
 }
