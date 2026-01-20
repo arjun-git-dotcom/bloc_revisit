@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jan18/bloc/bloc.dart';
@@ -6,6 +5,7 @@ import 'package:jan18/bloc/event.dart';
 import 'package:jan18/bloc/state.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -31,8 +31,22 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print('HIII');
+      context.read<ToggleBloc>().add(LoadTheme());
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +58,6 @@ class Homepage extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               bloc.add(ToggleTheme());
-              print(state.isdarkTheme);
             },
             child: Text('Toggle'),
           ),
