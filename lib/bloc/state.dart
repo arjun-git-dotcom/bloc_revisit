@@ -1,6 +1,4 @@
-import 'dart:ui';
-
-class ColorState {
-  Color colorValue;
-  ColorState(Color colorValue) : this.colorValue = colorValue;
+class ToggleState {
+  bool isdarkTheme;
+  ToggleState(bool isdarkTheme) : this.isdarkTheme = isdarkTheme;
 }

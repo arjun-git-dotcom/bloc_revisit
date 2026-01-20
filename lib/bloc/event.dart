@@ -1,3 +1,4 @@
-abstract class ColorEvent{}
+abstract class ToggleEvent{}
 
-class IncrementColor extends ColorEvent{}
+class ToggleTheme extends ToggleEvent{}
+

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jan18/bloc/bloc.dart';
@@ -14,8 +15,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => Counterbloc(),
-      child: MaterialApp(home: Homepage()),
+      create: (context) => ToggleBloc(),
+
+      child: BlocBuilder<ToggleBloc, ToggleState>(
+        builder: (context, state) => MaterialApp(
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          themeMode: state.isdarkTheme == true
+              ? ThemeMode.dark
+              : ThemeMode.light,
+          home: Homepage(),
+        ),
+      ),
     );
   }
 }
@@ -25,15 +36,18 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var bloc = BlocProvider.of<Counterbloc>(context);
-    return BlocBuilder<Counterbloc, ColorState>(
+    var bloc = BlocProvider.of<ToggleBloc>(context);
+
+    return BlocBuilder<ToggleBloc, ToggleState>(
       builder: (context, state) => Scaffold(
-        backgroundColor: state.colorValue,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            bloc.add(IncrementColor());
-            
-          },
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              bloc.add(ToggleTheme());
+              print(state.isdarkTheme);
+            },
+            child: Text('Toggle'),
+          ),
         ),
       ),
     );
