@@ -4,20 +4,15 @@ import 'package:jan18/bloc/state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ToggleBloc extends Bloc<ToggleEvent, ToggleState> {
-  ToggleBloc() : super(ToggleState(false)) {
+  bool initalTheme;
+  ToggleBloc({required this.initalTheme}) : super(ToggleState(initalTheme)) {
+
     on<ToggleTheme>((event, emit) async {
-      emit(ToggleState(!state.isdarkTheme));
-      
+      bool newTheme = !state.isdarkTheme;
+      emit(ToggleState(newTheme));
 
       final theme = await SharedPreferences.getInstance();
-      theme.setBool("state", state.isdarkTheme);
-    });
-
-    on<LoadTheme>((event, emit) async {
-      final theme = await SharedPreferences.getInstance();
-      bool loadedValue = theme.getBool("state") ?? false;
-      emit(ToggleState(loadedValue));
-     
+      theme.setBool("state", newTheme);
     });
   }
 }

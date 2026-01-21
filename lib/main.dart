@@ -3,10 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jan18/bloc/bloc.dart';
 import 'package:jan18/bloc/event.dart';
 import 'package:jan18/bloc/state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  final prefs = await SharedPreferences.getInstance();
+  bool initialTheme = prefs.getBool("state") ?? false;
+
+
+  runApp(
+    BlocProvider(
+      create: (context) => ToggleBloc(initalTheme: initialTheme),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,18 +24,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ToggleBloc(),
-
-      child: BlocBuilder<ToggleBloc, ToggleState>(
-        builder: (context, state) => MaterialApp(
-          theme: ThemeData.light(),
-          darkTheme: ThemeData.dark(),
-          themeMode: state.isdarkTheme == true
-              ? ThemeMode.dark
-              : ThemeMode.light,
-          home: Homepage(),
-        ),
+    return BlocBuilder<ToggleBloc, ToggleState>(
+      builder: (context, state) => MaterialApp(
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: state.isdarkTheme == true ? ThemeMode.dark : ThemeMode.light,
+        home: Homepage(),
       ),
     );
   }
@@ -39,14 +43,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
- 
-      context.read<ToggleBloc>().add(LoadTheme());
-    });
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {
