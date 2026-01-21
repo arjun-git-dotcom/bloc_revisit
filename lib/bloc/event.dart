@@ -1,8 +1,3 @@
-import 'dart:ui';
+abstract class AuthEvent{}
 
-abstract class ColorEvent {}
-
-class ColorTheme extends ColorEvent {
-  Color color;
-  ColorTheme(this.color);
-}
+class Login extends AuthEvent{}
