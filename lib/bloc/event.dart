@@ -1,6 +1,8 @@
-abstract class ToggleEvent{}
+import 'dart:ui';
 
-class ToggleTheme extends ToggleEvent{}
+abstract class ColorEvent {}
 
-
-
+class ColorTheme extends ColorEvent {
+  Color color;
+  ColorTheme(this.color);
+}
